@@ -1,12 +1,16 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
     <router-view/>
   </div>
 </template>
+<script>
+// 使用 Bootstrap 套件
+// import Vue from "vue";
+// import bootstrap from 'bootstrap'
+// Vue.use(bootstrap)
+// import 'bootstrap/dist/css/bootstrap.min.css'
+// import 'bootstrap/dist/js/bootstrap.min'
+</script>
 
 <style lang="scss">
 #app {
