@@ -14,22 +14,15 @@
           <img class="product_img" v-bind:src="getSrc(item.img)" v-bind:alt="pic" />
           {{item.name}} {{item.price}}元
           <div class="amount_block">
-            <img
-              class="plus_minus"
-              src="../assets/plus.png"
-              @click="clickPlus(item.number,item.name,item.price)"
-            />
+            <img class="plus_minus" src="../assets/plus.png" @click="clickPlus(item.number)" />
+            {{item.number}}
             <input
               class="amount col-md-3 form-control"
-              v-bind:id="item.number"
+              :id="product.number"
+              v-model.number="order"
               type="text"
-              value="0"
             />
-            <img
-              class="plus_minus"
-              src="../assets/minus.png"
-              @click="clickMinus(item.number,item.name,item.price)"
-            />
+            <img class="plus_minus" src="../assets/minus.png" @click="clickMinus(item.number)" />
           </div>
         </li>
       </ul>
@@ -59,8 +52,9 @@ export default {
   data() {
     return {
       images: "",
-      plus_num: 0,
-      minus_num: 0,
+      p_num: "", //商品編號
+      order: 0,
+
       product: [
         { number: 1, name: "焦糖星冰樂", img: "drink1.jpg", price: 130 },
         { number: 2, name: "焦糖可可星冰樂", img: "drink2.jpg", price: 145 },
@@ -83,24 +77,28 @@ export default {
 
   methods: {
     getSrc(img) {
+      //顯示商品圖片
       this.images = require.context("../assets/product/", false, /\.jpg$/);
       return this.images("./" + img);
     },
 
-    // clickPlus(p_num, p_name, p_price) {
-    //   this.plus_num = document.getElementById(this.p_num).value;
-    //   this.plus_num = parseInt(this.plus_num);
-    // },
-    // clickMinus(p_num, p_name, p_price) {
-    //   this.minus_num--;
-    //   if (this.minus_num < 0) {
-    //     this.minus_num = 0;
+    clickPlus(p_num) {
+      //將商品編號傳入p_num
+      this.p_num = parseInt(this.p_num);
+      this.product.number = this.p_num;
+      this.order++;
+      document.getElementById(this.product.number).value = this.order;
+    }
+
+    //   clickMinus() {
+    //     this.minus_num--;
+    //     if (this.minus_num < 0) {
+    //       this.minus_num = 0;
+    //     }
+    //     document.getElementById(p_num).value = this.plus_num;
     //   }
-    // }
   },
-  mounted() {
-    this.makingMenu();
-  }
+  mounted() {}
 };
 </script>
 <style scoped>
