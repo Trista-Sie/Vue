@@ -38,12 +38,18 @@
     <div class="end_block">
       <div class="totalPrice">
         總金額:
-        <input class="form-control" id="totalPrice" type="text" value="0" v-model="total_money"/>
+        <input class="form-control" id="totalPrice" type="text" value="0" v-model="total_money" />
       </div>
 
       <div class="totalAmount">
         總數量:
-        <input class="form-control" id="totalAmount" type="text" value="0" v-model="total_amount"/>
+        <input
+          class="form-control"
+          id="totalAmount"
+          type="text"
+          value="0"
+          v-model="total_amount"
+        />
       </div>
       <img class="purchase_icon" src="../assets/purchase.png" />
     </div>
@@ -148,20 +154,20 @@ export default {
       this.product.forEach(element => {
         if (element.number == p_num) {
           element.amount++;
-          total_money += element.price;
           total_amount++;
+          total_money += element.price;
         }
       });
     },
     clickMinus(p_num, p_amount) {
       this.product.forEach(element => {
         if (element.number == p_num) {
-          total_money -= element.price;
-          total_amount--;
           element.amount--;
           if (element.amount < 0) {
             element.amount = 0;
           }
+          total_amount--;
+          total_money -= element.price;
         }
       });
     }
