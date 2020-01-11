@@ -154,8 +154,10 @@ export default {
       this.product.forEach(element => {
         if (element.number == p_num) {
           element.amount++;
-          total_amount++;
-          total_money += element.price;
+          this.total_amount++;
+          this.total_money += element.price;
+          // console.log("+total-amount=", this.total_amount);
+          // console.log("+total-money=", this.total_money);
         }
       });
     },
@@ -166,8 +168,14 @@ export default {
           if (element.amount < 0) {
             element.amount = 0;
           }
-          total_amount--;
-          total_money -= element.price;
+          this.total_amount--;
+          this.total_money -= element.price;
+          if (this.total_amount < 0 || this.total_money < 0) {
+            this.total_amount = 0;
+            this.total_money = 0;
+          }
+          // console.log("-total-amount=", this.total_amount);
+          // console.log("-total-money=", this.total_money);
         }
       });
     }
