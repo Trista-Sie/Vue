@@ -9,20 +9,27 @@
 
     <div class="menu" id="menu">
       <!-- for迴圈顯示商品列表 -->
-      <ul :key="item" v-for="item in  product">
+      <ul :key="item" v-for="item in product">
         <li class="list-group-item">
           <img class="product_img" v-bind:src="getSrc(item.img)" v-bind:alt="pic" />
           {{item.name}} {{item.price}}元
           <div class="amount_block">
-            <img class="plus_minus" src="../assets/plus.png" @click="clickPlus(item.number)" />
-            {{item.number}}
+            <img
+              class="plus_minus"
+              src="../assets/plus.png"
+              @click="clickPlus(item.number,item.amount)"
+            />
             <input
+              :id="item.number"
               class="amount col-md-3 form-control"
-              :id="product.number"
-              v-model.number="order"
+              v-model="item.amount"
               type="text"
             />
-            <img class="plus_minus" src="../assets/minus.png" @click="clickMinus(item.number)" />
+            <img
+              class="plus_minus"
+              src="../assets/minus.png"
+              @click="clickMinus(item.number,item.amount)"
+            />
           </div>
         </li>
       </ul>
@@ -31,12 +38,12 @@
     <div class="end_block">
       <div class="totalPrice">
         總金額:
-        <input class="form-control" id="totalPrice" type="text" value="0" />
+        <input class="form-control" id="totalPrice" type="text" value="0" v-model="total_money"/>
       </div>
 
       <div class="totalAmount">
         總數量:
-        <input class="form-control" id="totalAmount" type="text" value="0" />
+        <input class="form-control" id="totalAmount" type="text" value="0" v-model="total_amount"/>
       </div>
       <img class="purchase_icon" src="../assets/purchase.png" />
     </div>
@@ -45,6 +52,7 @@
 
 <script>
 // @ is an alias to /src
+/* eslint no-unused-vars: 0 , no-console:off , no-undef: off*/
 export default {
   name: "home",
   components: {},
@@ -52,25 +60,80 @@ export default {
   data() {
     return {
       images: "",
-      p_num: "", //商品編號
-      order: 0,
+      total_amount: 0,
+      total_money: 0,
 
       product: [
-        { number: 1, name: "焦糖星冰樂", img: "drink1.jpg", price: 130 },
-        { number: 2, name: "焦糖可可星冰樂", img: "drink2.jpg", price: 145 },
-        { number: 3, name: "英式紅茶", img: "drink3.jpg", price: 110 },
-        { number: 4, name: "冰蜜柚紅茶", img: "drink4.jpg", price: 125 },
-        { number: 5, name: "太妃核果風味那堤", img: "drink5.jpg", price: 145 },
+        {
+          number: 1,
+          name: "焦糖星冰樂",
+          img: "drink1.jpg",
+          price: 130,
+          amount: 0
+        },
+        {
+          number: 2,
+          name: "焦糖可可星冰樂",
+          img: "drink2.jpg",
+          price: 145,
+          amount: 0
+        },
+        {
+          number: 3,
+          name: "英式紅茶",
+          img: "drink3.jpg",
+          price: 110,
+          amount: 0
+        },
+        {
+          number: 4,
+          name: "冰蜜柚紅茶",
+          img: "drink4.jpg",
+          price: 125,
+          amount: 0
+        },
+        {
+          number: 5,
+          name: "太妃核果風味那堤",
+          img: "drink5.jpg",
+          price: 145,
+          amount: 0
+        },
         {
           number: 6,
           name: "耶誕雪人巧克力那堤",
           img: "drink6.jpg",
-          price: 150
+          price: 150,
+          amount: 0
         },
-        { number: 7, name: "法式千層薄餅", img: "cake1.jpg", price: 95 },
-        { number: 8, name: "咖啡巧克力松露蛋糕", img: "cake2.jpg", price: 85 },
-        { number: 9, name: "提拉米蘇千層薄餅", img: "cake3.jpg", price: 100 },
-        { number: 10, name: "可可伯爵薄餅", img: "cake4.jpg", price: 130 }
+        {
+          number: 7,
+          name: "法式千層薄餅",
+          img: "cake1.jpg",
+          price: 95,
+          amount: 0
+        },
+        {
+          number: 8,
+          name: "咖啡巧克力松露蛋糕",
+          img: "cake2.jpg",
+          price: 85,
+          amount: 0
+        },
+        {
+          number: 9,
+          name: "提拉米蘇千層薄餅",
+          img: "cake3.jpg",
+          price: 100,
+          amount: 0
+        },
+        {
+          number: 10,
+          name: "可可伯爵薄餅",
+          img: "cake4.jpg",
+          price: 130,
+          amount: 0
+        }
       ]
     };
   },
@@ -81,22 +144,27 @@ export default {
       this.images = require.context("../assets/product/", false, /\.jpg$/);
       return this.images("./" + img);
     },
-
-    clickPlus(p_num) {
-      //將商品編號傳入p_num
-      this.p_num = parseInt(this.p_num);
-      this.product.number = this.p_num;
-      this.order++;
-      document.getElementById(this.product.number).value = this.order;
+    clickPlus(p_num, p_amount) {
+      this.product.forEach(element => {
+        if (element.number == p_num) {
+          element.amount++;
+          total_money += element.price;
+          total_amount++;
+        }
+      });
+    },
+    clickMinus(p_num, p_amount) {
+      this.product.forEach(element => {
+        if (element.number == p_num) {
+          total_money -= element.price;
+          total_amount--;
+          element.amount--;
+          if (element.amount < 0) {
+            element.amount = 0;
+          }
+        }
+      });
     }
-
-    //   clickMinus() {
-    //     this.minus_num--;
-    //     if (this.minus_num < 0) {
-    //       this.minus_num = 0;
-    //     }
-    //     document.getElementById(p_num).value = this.plus_num;
-    //   }
   },
   mounted() {}
 };
