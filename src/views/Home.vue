@@ -51,7 +51,11 @@
           v-model="total_amount"
         />
       </div>
-      <img class="purchase_icon" src="../assets/purchase.png" />
+      <div class="pay" id="pay">
+        <router-link to="/purchase">
+          <img class="purchase_icon" id="pay" src="../assets/purchase.png" />
+        </router-link>
+      </div>
     </div>
   </div>
 </template>
@@ -140,6 +144,18 @@ export default {
           price: 130,
           amount: 0
         }
+      ],
+      order_list: [
+        { name: "焦糖星冰樂", price: 0, amount: 0 },
+        { name: "焦糖可可星冰樂", price: 0, amount: 0 },
+        { name: "英式紅茶", price: 0, amount: 0 },
+        { name: "冰蜜柚紅茶", price: 0, amount: 0 },
+        { name: "太妃核果風味那堤", price: 0, amount: 0 },
+        { name: "耶誕雪人巧克力那堤", price: 0, amount: 0 },
+        { name: "法式千層薄餅", price: 0, amount: 0 },
+        { name: "咖啡巧克力松露蛋糕", price: 0, amount: 0 },
+        { name: "提拉米蘇千層薄餅", price: 0, amount: 0 },
+        { name: "可可伯爵薄餅", price: 0, amount: 0 }
       ]
     };
   },
@@ -158,6 +174,15 @@ export default {
           this.total_money += element.price;
           // console.log("+total-amount=", this.total_amount);
           // console.log("+total-money=", this.total_money);
+        }
+        if (element.amount != 0) {
+          this.order_list.forEach(order => {
+            if (element.name == order.name) {
+              order.amount = element.amount;
+              order.price = element.price * element.amount;
+              console.log("order-list=",this.order_list);
+            }
+          });
         }
       });
     },
@@ -214,6 +239,12 @@ export default {
   text-align: left;
   font-size: large;
   margin: 3px;
+}
+
+.pay {
+  display: inline-block;
+  text-align: right;
+  font-size: large;
 }
 .purchase_icon {
   float: right;
