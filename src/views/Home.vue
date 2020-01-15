@@ -52,9 +52,10 @@
         />
       </div>
       <div class="pay" id="pay">
-        <router-link to="/purchase">
+        <!-- <router-link target="_blank" :to="{path:'/purchase',query:{id:'1'}}">   
           <img class="purchase_icon" id="pay" src="../assets/purchase.png" />
-        </router-link>
+        </router-link>-->
+        <img class="purchase_icon" id="pay" src="../assets/purchase.png" @click="turnCart()" />
       </div>
     </div>
   </div>
@@ -174,17 +175,21 @@ export default {
           this.total_money += element.price;
           // console.log("+total-amount=", this.total_amount);
           // console.log("+total-money=", this.total_money);
-        }
-        if (element.amount != 0) {
-          this.order_list.forEach(order => {
-            if (element.name == order.name) {
-              order.amount = element.amount;
-              order.price = element.price * element.amount;
-              console.log("order-list=",this.order_list);
-            }
-          });
+          if (element.amount != 0) {
+            this.order_list.forEach(order => {
+              if (element.name == order.name) {
+                order.name = element.name;
+                order.amount = element.amount;
+                order.price = element.amount * element.price;
+                // console.log("+order-name=", order.name);
+                // console.log("+order-price=",order.price);
+                // console.log("+order.amount=",order.amount);
+              }
+            });
+          }
         }
       });
+      // console.log(this.order_list);
     },
     clickMinus(p_num, p_amount) {
       this.product.forEach(element => {
@@ -193,6 +198,17 @@ export default {
           if (element.amount < 0) {
             element.amount = 0;
           }
+          this.order_list.forEach(order => {
+            if (element.name == order.name) {
+              order.amount--;
+              order.price -= element.price;
+              // console.log("-order-name=", order.name);
+              // console.log("-order-price=", order.price);
+              // console.log("-order.amount=", order.amount);
+            }
+          });
+          // console.log(this.order_list);
+
           this.total_amount--;
           this.total_money -= element.price;
           if (this.total_amount < 0 || this.total_money < 0) {
@@ -204,6 +220,24 @@ export default {
         }
       });
     }
+    // turnCart() {
+    //   let routeUrl = this.$router.resolve({
+    //     path: "/purchase",
+    //     order_list:
+    //     { name: "焦糖星冰樂", price: 0, amount: 0 }
+    //     // { name: "焦糖可可星冰樂", price: 0, amount: 0 },
+    //     // { name: "英式紅茶", price: 0, amount: 0 },
+    //     // { name: "冰蜜柚紅茶", price: 0, amount: 0 },
+    //     // { name: "太妃核果風味那堤", price: 0, amount: 0 },
+    //     // { name: "耶誕雪人巧克力那堤", price: 0, amount: 0 },
+    //     // { name: "法式千層薄餅", price: 0, amount: 0 },
+    //     // { name: "咖啡巧克力松露蛋糕", price: 0, amount: 0 },
+    //     // { name: "提拉米蘇千層薄餅", price: 0, amount: 0 },
+    //     // { name: "可可伯爵薄餅", price: 0, amount: 0 }
+
+    //   });
+    //   window.open(routeUrl.href, "_blank");
+    // }
   },
   mounted() {}
 };
