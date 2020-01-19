@@ -52,10 +52,10 @@
         />
       </div>
       <div class="pay" id="pay">
-        <!-- <router-link target="_blank" :to="{path:'/purchase',query:{id:'1'}}">   
+        <router-link target="_blank" :to="{name:'purchase', query:{name: '焦糖星冰樂', price: 0, amount: 0 }}">
           <img class="purchase_icon" id="pay" src="../assets/purchase.png" />
-        </router-link>-->
-        <img class="purchase_icon" id="pay" src="../assets/purchase.png" @click="turnCart()" />
+        </router-link>
+        <!-- <img class="purchase_icon" id="pay" src="../assets/purchase.png" @click="turnCart()" /> -->
       </div>
     </div>
   </div>
@@ -160,7 +160,11 @@ export default {
       ]
     };
   },
-
+  computed: {
+    cart() {
+      return this.$store.state.order_list;
+    }
+  },
   methods: {
     getSrc(img) {
       //顯示商品圖片
@@ -181,9 +185,9 @@ export default {
                 order.name = element.name;
                 order.amount = element.amount;
                 order.price = element.amount * element.price;
-                // console.log("+order-name=", order.name);
-                // console.log("+order-price=",order.price);
-                // console.log("+order.amount=",order.amount);
+                console.log("+order-name=", order.name);
+                console.log("+order-price=", order.price);
+                console.log("+order.amount=", order.amount);
               }
             });
           }
@@ -202,11 +206,12 @@ export default {
             if (element.name == order.name) {
               order.amount--;
               order.price -= element.price;
-              // console.log("-order-name=", order.name);
-              // console.log("-order-price=", order.price);
-              // console.log("-order.amount=", order.amount);
+              console.log("-order-name=", order.name);
+              console.log("-order-price=", order.price);
+              console.log("-order.amount=", order.amount);
             }
           });
+
           // console.log(this.order_list);
 
           this.total_amount--;
@@ -219,21 +224,25 @@ export default {
           // console.log("-total-money=", this.total_money);
         }
       });
+    },
+    increase() {
+      this.$store.dispatch("increment", this.order_list.amount);
+      this.$store.dispatch("increment", this.order_list.price);
     }
     // turnCart() {
     //   let routeUrl = this.$router.resolve({
     //     path: "/purchase",
     //     order_list:
-    //     { name: "焦糖星冰樂", price: 0, amount: 0 }
-    //     // { name: "焦糖可可星冰樂", price: 0, amount: 0 },
-    //     // { name: "英式紅茶", price: 0, amount: 0 },
-    //     // { name: "冰蜜柚紅茶", price: 0, amount: 0 },
-    //     // { name: "太妃核果風味那堤", price: 0, amount: 0 },
-    //     // { name: "耶誕雪人巧克力那堤", price: 0, amount: 0 },
-    //     // { name: "法式千層薄餅", price: 0, amount: 0 },
-    //     // { name: "咖啡巧克力松露蛋糕", price: 0, amount: 0 },
-    //     // { name: "提拉米蘇千層薄餅", price: 0, amount: 0 },
-    //     // { name: "可可伯爵薄餅", price: 0, amount: 0 }
+    //     { name: "焦糖星冰樂"}
+    //     // { name: "焦糖可可星冰樂"},
+    //     // { name: "英式紅茶"},
+    //     // { name: "冰蜜柚紅茶"},
+    //     // { name: "太妃核果風味那堤"},
+    //     // { name: "耶誕雪人巧克力那堤"},
+    //     // { name: "法式千層薄餅"},
+    //     // { name: "咖啡巧克力松露蛋糕"},
+    //     // { name: "提拉米蘇千層薄餅"},
+    //     // { name: "可可伯爵薄餅"}
 
     //   });
     //   window.open(routeUrl.href, "_blank");
