@@ -52,7 +52,7 @@
         />
       </div>
       <div class="pay" id="pay">
-        <router-link target="_blank" :to="{name:'purchase', query:{name: '焦糖星冰樂', price: 0, amount: 0 }}">
+        <router-link target="_blank" :to="{name:'purchase',query:{order_list}}">
           <img class="purchase_icon" id="pay" src="../assets/purchase.png" />
         </router-link>
         <!-- <img class="purchase_icon" id="pay" src="../assets/purchase.png" @click="turnCart()" /> -->
