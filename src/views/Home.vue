@@ -236,10 +236,7 @@ export default {
         }
       });
     },
-    increase() {
-      this.$store.dispatch("increment", this.order_list.amount);
-      this.$store.dispatch("increment", this.order_list.price);
-    }
+    
     // turnCart() {
     //   let routeUrl = this.$router.resolve({
     //     path: "/purchase",
