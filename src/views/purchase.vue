@@ -1,7 +1,5 @@
 <template>
   <div class="purchase">
-    <div>{{url}}</div>
-    <div>{{result}}</div>
   </div>
 </template>
 
@@ -13,8 +11,7 @@ export default {
 
   data() {
     return {
-      url:
-        "http://localhost:8080/#/purchase?order_list=%5Bobject%20Object%5D&order_list=%5Bobject%20Object%5D&order_list=%5Bobject%20Object%5D&order_list=%5Bobject%20Object%5D&order_list=%5Bobject%20Object%5D&order_list=%5Bobject%20Object%5D&order_list=%5Bobject%20Object%5D&order_list=%5Bobject%20Object%5D&order_list=%5Bobject%20Object%5D&order_list=%5Bobject%20Object%5D",
+      url: "",
       result: ""
     };
   },
@@ -22,7 +19,7 @@ export default {
     saveURL() {
       this.url = this.$route.query;
       console.log("url=", this.url);
-      this.result = decodeURI(this.url);
+      this.result = decodeURIComponent(this.url);
       console.log("result=", this.result);
     }
   }

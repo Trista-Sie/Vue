@@ -3,7 +3,6 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-/* eslint no-unused-vars: 0 , no-console:off , no-undef: off*/
 export default new Vuex.Store({
   state: {
     order_list: [
@@ -20,16 +19,21 @@ export default new Vuex.Store({
     ]
   },
   mutations: {
-    INCREMENT_ORDER(state, order_list) {
+    INCREMENT_ORDER(state) {
       state.order_list.amount++;
-      console.log("order_list_amount", order_list.amount);
+      state.order_list.price = state.order_list * state.order_list.price;
+    },
+    DECREMENT_ORDER(state) {
+      state.order_list.amount--;
+      if (state.order_list.amount < 0) {
+        state.order_list.amount = 0
+      }
+      state.order_list.price = state.order_list * state.order_list.price;
     }
   },
-  actions: {
-    increment(context, order_list) {
-      context.commit('INCREMENT_ORDER', order_list)
+  getters: {
+    get_order_list(state) {
+      return state.order_list
     }
-  },
-  modules: {
   }
 })
