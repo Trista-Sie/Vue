@@ -74,7 +74,8 @@ export default {
       pic: "",
       total_amount: 0,
       total_money: 0,
-      name: this.$store.getters.get_order_list,
+      name: this.$store.getters.get_order_list_name,
+      amount:this.$store.getters.get_order_list_amount,
 
       product: [
         {
@@ -181,6 +182,7 @@ export default {
           if (element.name == this.name) {
             console.log("In plus");
             this.$store.commit("INCREMENT_ORDER");
+            this.amount = this.$store.getters.get_order_list_amount;
           }
           // if (element.amount != 0) {
           //   this.order_list.forEach(order => {
@@ -220,6 +222,7 @@ export default {
           if (element.name == this.name) {
             console.log("In minus");
             this.$store.commit("DECREMENT_ORDER");
+            this.amount = this.$store.getters.get_order_list_amount;
           }
 
           this.total_amount--;

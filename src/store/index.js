@@ -16,24 +16,27 @@ export default new Vuex.Store({
       { name: "咖啡巧克力松露蛋糕", price: 85, amount: 0 },
       { name: "提拉米蘇千層薄餅", price: 100, amount: 0 },
       { name: "可可伯爵薄餅", price: 130, amount: 0 }
-    ]
+    ],
   },
   mutations: {
     INCREMENT_ORDER(state) {
       state.order_list.amount++;
-      state.order_list.price = state.order_list * state.order_list.price;
+      state.order_list.price = state.order_list.amount * state.order_list.price;
     },
     DECREMENT_ORDER(state) {
       state.order_list.amount--;
       if (state.order_list.amount < 0) {
         state.order_list.amount = 0
       }
-      state.order_list.price = state.order_list * state.order_list.price;
+      state.order_list.price = state.order_list.amount * state.order_list.price;
     }
   },
   getters: {
-    get_order_list(state) {
-      return state.order_list
+    get_order_list_name(state) {
+      return state.order_list.name
+    },
+    get_order_list_amount(state) {
+      return state.order_list.amount
     }
   }
 })
