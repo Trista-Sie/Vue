@@ -3,9 +3,12 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
+/* eslint no-unused-vars: 0 , no-console:off , no-undef: off*/
 export default new Vuex.Store({
   state: {
-    order_list: [
+    global_total_price: 0,
+    global_total_amount: 0,
+    global_order_list: [
       { name: "焦糖星冰樂", price: 130, amount: 0 },
       { name: "焦糖可可星冰樂", price: 145, amount: 0 },
       { name: "英式紅茶", price: 110, amount: 0 },
@@ -19,24 +22,41 @@ export default new Vuex.Store({
     ],
   },
   mutations: {
-    INCREMENT_ORDER(state) {
-      state.order_list.amount++;
-      state.order_list.price = state.order_list.amount * state.order_list.price;
+    INCREMENT_ORDER(state, p_name) {
+      state.global_order_list.forEach(element => {
+        if (element.name == p_name) {
+          state.global_total_price += element.price;
+          element.amount++;
+          state.global_total_amount++;
+          console.log('+element.name=', element.name);
+          console.log('+element.amount', element.amount);
+          console.log('+global_total_amount=', state.global_total_amount);
+          console.log('+global_total_price=', state.global_total_price);
+        }
+      });
     },
-    DECREMENT_ORDER(state) {
-      state.order_list.amount--;
-      if (state.order_list.amount < 0) {
-        state.order_list.amount = 0
-      }
-      state.order_list.price = state.order_list.amount * state.order_list.price;
+    DECREMENT_ORDER(state, p_name) {
+      state.global_order_list.forEach(element => {
+        if (element.name == p_name) {
+          state.global_total_amount--;
+          state.global_total_price -= element.price;
+          element.amount--;
+          console.log('-element.name=', element.name);
+          console.log('-global_total_amount=', state.global_total_amount);
+          console.log('-global_total_price=', state.global_total_price);
+        }
+      })
     }
   },
   getters: {
-    get_order_list_name(state) {
-      return state.order_list.name
+    get_order_list(state) {
+      return state.order_list
     },
     get_order_list_amount(state) {
-      return state.order_list.amount
-    }
+      return state.global_total_amount
+    },
+    get_order_list_price(state) {
+      return state.global_total_price
+    },
   }
 })

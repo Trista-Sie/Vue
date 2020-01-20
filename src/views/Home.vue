@@ -17,18 +17,18 @@
             <img
               class="plus_minus"
               src="../assets/plus.png"
-              @click="clickPlus(item.number,item.amount)"
+              @click="clickPlus(item.name,item.amount)"
             />
             <input
               :id="item.number"
-              class="amount col-md-3 form-control"
               v-model="item.amount"
+              class="amount col-md-3 form-control"
               type="text"
             />
             <img
               class="plus_minus"
               src="../assets/minus.png"
-              @click="clickMinus(item.number,item.amount)"
+              @click="clickMinus(item.name,item.amount)"
             />
           </div>
         </li>
@@ -55,7 +55,6 @@
         <router-link target="_blank" :to="{name:'purchase',query:{order_list}}">
           <img class="purchase_icon" id="pay" src="../assets/purchase.png" />
         </router-link>
-        <!-- <img class="purchase_icon" id="pay" src="../assets/purchase.png" @click="turnCart()" /> -->
       </div>
     </div>
   </div>
@@ -64,6 +63,9 @@
 <script>
 // @ is an alias to /src
 /* eslint no-unused-vars: 0 , no-console:off , no-undef: off*/
+
+// import { mapFields } from 'vuex-map-fields';
+
 export default {
   name: "home",
   components: {},
@@ -72,10 +74,9 @@ export default {
     return {
       images: "",
       pic: "",
-      total_amount: 0,
-      total_money: 0,
-      name: this.$store.getters.get_order_list_name,
-      amount:this.$store.getters.get_order_list_amount,
+      total_amount: this.$store.getters.get_order_list_amount,
+      total_money: this.$store.getters.get_order_list_price,
+      order_list: this.$store.getters.get_order_list,
 
       product: [
         {
@@ -164,97 +165,27 @@ export default {
     };
   },
 
+  // computed:{
+  //   // The `mapFields` function takes an array of
+  //   // field names and generates corresponding
+  //   // computed properties with getter and setter
+  //   // functions for accessing the Vuex store.
+  //   mapFields([
+  //     'amount'
+  //   ]),
+  // },
   methods: {
     getSrc(img) {
       //顯示商品圖片
       this.images = require.context("../assets/product/", false, /\.jpg$/);
       return this.images("./" + img);
     },
-    clickPlus(p_num, p_amount) {
-      this.product.forEach(element => {
-        if (element.number == p_num) {
-          element.amount++;
-          this.total_amount++;
-          this.total_money += element.price;
-          // console.log("+total-amount=", this.total_amount);
-          // console.log("+total-money=", this.total_money);
-
-          if (element.name == this.name) {
-            console.log("In plus");
-            this.$store.commit("INCREMENT_ORDER");
-            this.amount = this.$store.getters.get_order_list_amount;
-          }
-          // if (element.amount != 0) {
-          //   this.order_list.forEach(order => {
-          //     if (element.name == order.name) {
-          //       order.name = element.name;
-          //       order.amount = element.amount;
-          //       order.price = element.amount * element.price;
-          //       console.log("+order-name=", order.name);
-          //       console.log("+order-price=", order.price);
-          //       console.log("+order.amount=", order.amount);
-          //     }
-          //   });
-          // }
-        }
-      });
-      // console.log(this.order_list);
+    clickPlus(p_name, p_amount) {
+      this.$store.commit("INCREMENT_ORDER", p_name);
     },
-    clickMinus(p_num, p_amount) {
-      this.product.forEach(element => {
-        if (element.number == p_num) {
-          element.amount--;
-          if (element.amount < 0) {
-            element.amount = 0;
-          }
-          // this.order_list.forEach(order => {
-          //   if (element.name == order.name) {
-          //     order.amount--;
-          //     order.price -= element.price;
-          //     console.log("-order-name=", order.name);
-          //     console.log("-order-price=", order.price);
-          //     console.log("-order.amount=", order.amount);
-          //   }
-          // });
-
-          // console.log(this.order_list);
-
-          if (element.name == this.name) {
-            console.log("In minus");
-            this.$store.commit("DECREMENT_ORDER");
-            this.amount = this.$store.getters.get_order_list_amount;
-          }
-
-          this.total_amount--;
-          this.total_money -= element.price;
-          if (this.total_amount < 0 || this.total_money < 0) {
-            this.total_amount = 0;
-            this.total_money = 0;
-          }
-          // console.log("-total-amount=", this.total_amount);
-          // console.log("-total-money=", this.total_money);
-        }
-      });
-    },
-    
-    // turnCart() {
-    //   let routeUrl = this.$router.resolve({
-    //     path: "/purchase",
-    //     order_list:
-    //     { name: "焦糖星冰樂"}
-    //     // { name: "焦糖可可星冰樂"},
-    //     // { name: "英式紅茶"},
-    //     // { name: "冰蜜柚紅茶"},
-    //     // { name: "太妃核果風味那堤"},
-    //     // { name: "耶誕雪人巧克力那堤"},
-    //     // { name: "法式千層薄餅"},
-    //     // { name: "咖啡巧克力松露蛋糕"},
-    //     // { name: "提拉米蘇千層薄餅"},
-    //     // { name: "可可伯爵薄餅"}
-
-    //   });
-    //   window.open(routeUrl.href, "_blank");
-    // }
+    clickMinus(p_name, p_amount) {
+      this.$store.commit("DECREMENT_ORDER", p_name);
+    }
   },
   mounted() {}
 };
