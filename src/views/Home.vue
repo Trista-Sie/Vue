@@ -72,9 +72,8 @@ export default {
     return {
       images: "",
       pic: "",
-      item_amount: this.$store.getters.get_p_amount,
-      total_amount: this.$store.getters.get_order_list_amount,
-      total_money: this.$store.getters.get_order_list_price,
+      total_amount: 0,
+      total_money: 0,
       order_list: this.$store.getters.get_order_list,
 
       product: [
@@ -158,40 +157,40 @@ export default {
       this.images = require.context("../assets/product/", false, /\.jpg$/);
       return this.images("./" + img);
     },
-<<<<<<< HEAD
-    clickPlus(p_name) {
+    clickPlus(p_num, p_name) {
       this.$store.commit("INCREMENT_ORDER", p_name);
-      console.log("item_amount=",this.item_amount);
+      this.amountChange(p_num, "plus");
+      this.saveData();
     },
-    clickMinus(p_name) {
+    clickMinus(p_num, p_name) {
       this.$store.commit("DECREMENT_ORDER", p_name);
-      console.log("item_amount=",this.item_amount);
-=======
-    clickPlus(p_id,p_name) {
-      this.$store.commit("INCREMENT_ORDER", p_name);
-      this.amountChange(p_id,'plus')
-      this.dataFromVue()
-    },
-    clickMinus(p_id,p_name) {
-      this.$store.commit("DECREMENT_ORDER", p_name);
-      this.amountChange(p_id,'minus')
-      this.dataFromVue()
+      this.amountChange(p_num, "minus");
+      this.saveData();
     },
     amountChange(id, mode) {
       this.product.forEach((element, index) => {
         if (id == element.number) {
           if (mode == "plus") {
             this.product[index].amount++;
+            // console.log('index=',index);
+            // console.log('plus=',this.product[index].amount);
           } else if (mode == "minus") {
             this.product[index].amount--;
+            if (this.product[index].amount < 0) {
+              this.product[index].amount = 0;
+            }
+            // console.log('index=',index);
+            // console.log('minus=',this.product[index].amount);
           }
         }
       });
     },
-    dataFromVue(){
+    //
+    saveData() {
       this.total_amount = this.$store.getters.get_order_list_amount;
+      // console.log('total_amount=',this.total_amount);
       this.total_money = this.$store.getters.get_order_list_price;
->>>>>>> origin/master
+      // console.log('total_monney=',this.total_money);
     }
   },
   mounted() {}
