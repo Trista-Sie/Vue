@@ -17,7 +17,7 @@
             <img
               class="plus_minus"
               src="../assets/plus.png"
-              @click="clickPlus(item.name,item.amount)"
+              @click="clickPlus(item.number,item.name)"
             />
             <input
               :id="item.number"
@@ -28,7 +28,7 @@
             <img
               class="plus_minus"
               src="../assets/minus.png"
-              @click="clickMinus(item.name,item.amount)"
+              @click="clickMinus(item.number,item.name)"
             />
           </div>
         </li>
@@ -158,6 +158,7 @@ export default {
       this.images = require.context("../assets/product/", false, /\.jpg$/);
       return this.images("./" + img);
     },
+<<<<<<< HEAD
     clickPlus(p_name) {
       this.$store.commit("INCREMENT_ORDER", p_name);
       console.log("item_amount=",this.item_amount);
@@ -165,6 +166,32 @@ export default {
     clickMinus(p_name) {
       this.$store.commit("DECREMENT_ORDER", p_name);
       console.log("item_amount=",this.item_amount);
+=======
+    clickPlus(p_id,p_name) {
+      this.$store.commit("INCREMENT_ORDER", p_name);
+      this.amountChange(p_id,'plus')
+      this.dataFromVue()
+    },
+    clickMinus(p_id,p_name) {
+      this.$store.commit("DECREMENT_ORDER", p_name);
+      this.amountChange(p_id,'minus')
+      this.dataFromVue()
+    },
+    amountChange(id, mode) {
+      this.product.forEach((element, index) => {
+        if (id == element.number) {
+          if (mode == "plus") {
+            this.product[index].amount++;
+          } else if (mode == "minus") {
+            this.product[index].amount--;
+          }
+        }
+      });
+    },
+    dataFromVue(){
+      this.total_amount = this.$store.getters.get_order_list_amount;
+      this.total_money = this.$store.getters.get_order_list_price;
+>>>>>>> origin/master
     }
   },
   mounted() {}
