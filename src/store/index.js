@@ -6,6 +6,7 @@ Vue.use(Vuex)
 /* eslint no-unused-vars: 0 , no-console:off , no-undef: off*/
 export default new Vuex.Store({
   state: {
+    global_p_amount: 0,
     global_total_price: 0,
     global_total_amount: 0,
     global_order_list: [
@@ -27,11 +28,13 @@ export default new Vuex.Store({
         if (element.name == p_name) {
           state.global_total_price += element.price;
           element.amount++;
+          state.global_p_amount = element.amount;
           state.global_total_amount++;
           console.log('+element.name=', element.name);
-          console.log('+element.amount', element.amount);
-          console.log('+global_total_amount=', state.global_total_amount);
-          console.log('+global_total_price=', state.global_total_price);
+          // console.log('+element.amount=', element.amount);
+          console.log('+p_amount', state.global_p_amount);
+          // console.log('+global_total_amount=', state.global_total_amount);
+          // console.log('+global_total_price=', state.global_total_price);
         }
       });
     },
@@ -41,9 +44,12 @@ export default new Vuex.Store({
           state.global_total_amount--;
           state.global_total_price -= element.price;
           element.amount--;
+          state.global_p_amount = element.amount;
           console.log('-element.name=', element.name);
-          console.log('-global_total_amount=', state.global_total_amount);
-          console.log('-global_total_price=', state.global_total_price);
+          // console.log('-element.amount=', element.amount);
+          console.log('-p_amount', state.global_p_amount);
+          // console.log('-global_total_amount=', state.global_total_amount);
+          // console.log('-global_total_price=', state.global_total_price);
         }
       })
     }
@@ -58,5 +64,8 @@ export default new Vuex.Store({
     get_order_list_price(state) {
       return state.global_total_price
     },
+    get_p_amount(state) {
+      return state.global_p_amount
+    }
   }
 })

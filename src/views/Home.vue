@@ -64,8 +64,6 @@
 // @ is an alias to /src
 /* eslint no-unused-vars: 0 , no-console:off , no-undef: off*/
 
-// import { mapFields } from 'vuex-map-fields';
-
 export default {
   name: "home",
   components: {},
@@ -74,6 +72,7 @@ export default {
     return {
       images: "",
       pic: "",
+      item_amount: this.$store.getters.get_p_amount,
       total_amount: this.$store.getters.get_order_list_amount,
       total_money: this.$store.getters.get_order_list_price,
       order_list: this.$store.getters.get_order_list,
@@ -150,41 +149,22 @@ export default {
           amount: 0
         }
       ]
-      // order_list: [
-      //   { name: "焦糖星冰樂", price: 0, amount: 0 },
-      //   { name: "焦糖可可星冰樂", price: 0, amount: 0 },
-      //   { name: "英式紅茶", price: 0, amount: 0 },
-      //   { name: "冰蜜柚紅茶", price: 0, amount: 0 },
-      //   { name: "太妃核果風味那堤", price: 0, amount: 0 },
-      //   { name: "耶誕雪人巧克力那堤", price: 0, amount: 0 },
-      //   { name: "法式千層薄餅", price: 0, amount: 0 },
-      //   { name: "咖啡巧克力松露蛋糕", price: 0, amount: 0 },
-      //   { name: "提拉米蘇千層薄餅", price: 0, amount: 0 },
-      //   { name: "可可伯爵薄餅", price: 0, amount: 0 }
-      // ]
     };
   },
 
-  // computed:{
-  //   // The `mapFields` function takes an array of
-  //   // field names and generates corresponding
-  //   // computed properties with getter and setter
-  //   // functions for accessing the Vuex store.
-  //   mapFields([
-  //     'amount'
-  //   ]),
-  // },
   methods: {
     getSrc(img) {
       //顯示商品圖片
       this.images = require.context("../assets/product/", false, /\.jpg$/);
       return this.images("./" + img);
     },
-    clickPlus(p_name, p_amount) {
+    clickPlus(p_name) {
       this.$store.commit("INCREMENT_ORDER", p_name);
+      console.log("item_amount=",this.item_amount);
     },
-    clickMinus(p_name, p_amount) {
+    clickMinus(p_name) {
       this.$store.commit("DECREMENT_ORDER", p_name);
+      console.log("item_amount=",this.item_amount);
     }
   },
   mounted() {}
