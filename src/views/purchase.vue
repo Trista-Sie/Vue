@@ -16,9 +16,9 @@
         </li>
       </ul>
     </div>
-    <div class="dayTime" v-bind:time="getTime()">下單時間:</div>
   </div>
 </template>
+
 
 <script>
 /* eslint no-unused-vars: 0 , no-console:off , no-undef: off*/
@@ -30,12 +30,16 @@ export default {
     return {
       images: "",
       pic: "",
-      nowDate: "",
-      day: "",
-      weekName: "",
-      today: "",
-      purchase_list: this.$store.getters.get_order_list
+      url:"",
+      purchase_list: this.$store.getters.get_order_list,
+      orderData:"",
     };
+  },
+  created(){
+    this.url = this.$route.query;
+    console.log("url=",this.url);
+    this.orderData = decodeURI(this.url);
+    console.log("orderData=",this.orderData);
   },
   methods: {
     getSrc(img) {
@@ -43,7 +47,6 @@ export default {
       this.images = require.context("../assets/product/", false, /\.jpg$/);
       return this.images("./" + img);
     },
-    getTime() {}
   }
 };
 </script>
