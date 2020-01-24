@@ -167,6 +167,7 @@ export default {
       this.amountChange(p_num, "minus");
       this.saveData();
     },
+    //使v-model同步顯示數量增減
     amountChange(id, mode) {
       this.product.forEach((element, index) => {
         if (id == element.number) {
@@ -185,7 +186,7 @@ export default {
         }
       });
     },
-    //
+    //取得state的變數
     saveData() {
       this.total_amount = this.$store.getters.get_order_list_amount;
       // console.log('total_amount=',this.total_amount);
@@ -193,7 +194,6 @@ export default {
       // console.log('total_monney=',this.total_money);
     }
   },
-  mounted() {}
 };
 </script>
 <style scoped>
