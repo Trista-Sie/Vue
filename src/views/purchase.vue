@@ -33,6 +33,8 @@ export default {
       orderData: [],
     };
   },
+  created(){
+  },
   methods: {
     getSrc(img) {
       //顯示商品圖片
@@ -61,8 +63,12 @@ export default {
   font-size: 47px;
   text-align: center;
 }
-.time_block {
-  text-align: right;
-  font-size: larger;
+.product_img {
+  height: 150px;
+  width: 150px;
+}
+.list-group-item {
+  text-align: left;
+  margin: 3px;
 }
 </style>

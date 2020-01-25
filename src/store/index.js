@@ -30,6 +30,7 @@ export default new Vuex.Store({
           state.global_total_amount++;
         }
       });
+      console.log("order_list=",state.global_order_list);
     },
     DECREMENT_ORDER(state, p_name) {
       state.global_order_list.forEach(element => {
@@ -43,11 +44,12 @@ export default new Vuex.Store({
         state.global_total_amount = 0
         state.global_total_price = 0
       }
+      console.log("order_list=",state.global_order_list);
     }
   },
   getters: {
     get_order_list(state) {
-      return state.order_list
+      return state.global_order_list
     },
     get_order_list_amount(state) {
       return state.global_total_amount
