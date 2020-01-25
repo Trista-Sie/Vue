@@ -30,7 +30,7 @@ export default {
     return {
       images: "",
       pic: "",
-      orderData: this.$store.getters.get_order_list,
+      orderData: [],
     };
   },
   methods: {
@@ -39,6 +39,10 @@ export default {
       this.images = require.context("../assets/product/", false, /\.jpg$/);
       return this.images("./" + img);
     }
+  },
+  mounted: function() {
+    this.orderData = this.$store.getters.get_order_list;
+    console.log("orderData=", this.orderData);
   }
 };
 </script>
