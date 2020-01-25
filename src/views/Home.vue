@@ -52,7 +52,7 @@
         />
       </div>
       <div class="pay" id="pay">
-        <router-link target="_blank" :to="{name:'purchase',query:{order_list}}">
+        <router-link target="_blank" :to="{name:'purchase'}">
           <img class="purchase_icon" id="pay" src="../assets/purchase.png" />
         </router-link>
       </div>
@@ -74,7 +74,6 @@ export default {
       pic: "",
       total_amount: 0,
       total_money: 0,
-      order_list: this.$store.getters.get_order_list,
 
       product: [
         {
