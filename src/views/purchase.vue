@@ -33,9 +33,6 @@ export default {
       orderData: this.$store.getters.get_order_list,
     };
   },
-  created() {
-    console.log("orderData=", this.orderData);
-  },
   methods: {
     getSrc(img) {
       //顯示商品圖片
