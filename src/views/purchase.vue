@@ -9,11 +9,8 @@
 
     <div class="menu" id="menu">
       <!-- for迴圈顯示商品列表 -->
-      <ul :key="item" v-for="item in orderData">
-        <li class="list-group-item">
-          <img class="product_img" v-bind:src="getSrc(item.img)" v-bind:alt="pic" />
-          {{item.name}} {{item.price}} {{item.amount}}元
-        </li>
+      <ul>
+        <li class="list-group-item"></li>
       </ul>
     </div>
   </div>
@@ -30,21 +27,19 @@ export default {
     return {
       images: "",
       pic: "",
+      total_amount: 0,
+      total_money: 0,
       orderData: [],
     };
   },
-  created(){
-  },
-  methods: {
-    getSrc(img) {
-      //顯示商品圖片
-      this.images = require.context("../assets/product/", false, /\.jpg$/);
-      return this.images("./" + img);
-    }
-  },
+  methods: {},
   mounted: function() {
     this.orderData = this.$store.getters.get_order_list;
     console.log("orderData=", this.orderData);
+    this.total_amount = this.$store.getters.get_order_list_amount;
+    // console.log("total_amount=", this.total_amount);
+    this.total_money = this.$store.getters.get_order_list_price;
+    // console.log("total_monney=", this.total_money);
   }
 };
 </script>

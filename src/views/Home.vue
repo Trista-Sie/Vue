@@ -52,7 +52,7 @@
         />
       </div>
       <div class="pay" id="pay">
-        <router-link target="_blank" :to="{name:'purchase'}">
+        <router-link :to="{name:'purchase'}">
           <img class="purchase_icon" id="pay" src="../assets/purchase.png" />
         </router-link>
       </div>
