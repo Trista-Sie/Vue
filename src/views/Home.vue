@@ -31,6 +31,7 @@
               @click="clickMinus(item.number,item.name)"
             />
           </div>
+          <br>
         </li>
       </ul>
     </div>
@@ -56,6 +57,7 @@
           <img class="purchase_icon" id="pay" src="../assets/purchase.png" />
         </router-link>
       </div>
+      <div class="time_block">{{date | formatDate}}</div>
     </div>
   </div>
 </template>
@@ -63,7 +65,11 @@
 <script>
 // @ is an alias to /src
 /* eslint no-unused-vars: 0 , no-console:off , no-undef: off*/
-
+var padDate = function(value) {
+  //在月份、日期、小时等小于10时在前面补0
+  console.log("padDate=", padDate);
+  return value < 10 ? "0" + value : value;
+};
 export default {
   name: "home",
   components: {},
@@ -74,6 +80,7 @@ export default {
       pic: "",
       total_amount: 0,
       total_money: 0,
+      date: new Date(),
 
       product: [
         {
@@ -149,7 +156,34 @@ export default {
       ]
     };
   },
-
+  filters: {
+    formatDate: function(value) {
+      //value为需要过滤的数据
+      var date = new Date();
+      // console.log('date=',date);
+      var year = date.getFullYear();
+      var month = padDate(date.getMonth() + 1);
+      console.log("month=", month);
+      var day = padDate(date.getDate());
+      var hours = padDate(date.getHours());
+      var minutes = padDate(date.getMinutes());
+      var seconds = padDate(date.getSeconds());
+      //整理数据并返回
+      return (
+        year +
+        " / " +
+        month +
+        " / " +
+        day +
+        " " +
+        hours +
+        ":" +
+        minutes +
+        ":" +
+        seconds
+      );
+    }
+  },
   methods: {
     getSrc(img) {
       //顯示商品圖片
@@ -193,6 +227,19 @@ export default {
       // console.log('total_monney=',this.total_money);
     }
   },
+  mounted: function() {
+    //定时器，用于每秒刷新页面
+    var _this = this; //声明一个变量指向Vue实例this，保证作用域一致
+    this.timer = setInterval(function() {
+      _this.date = new Date(); //修改数据date
+    }, 1000);
+  },
+  beforeDestory: function() {
+    //清除定时器
+    if (this.timer) {
+      clearInterval(this.timer); //在Vue实例销毁前，清除定时器
+    }
+  }
 };
 </script>
 <style scoped>
@@ -210,10 +257,16 @@ export default {
   text-align: center;
 }
 .end_block {
+  width: 55%;
   display: inline-block;
-  margin: 2px;
 }
-
+.time_block {
+  display: inline-block;
+  width: 25%;
+  float: left;
+  text-align: center;
+  font-size: large;
+}
 .totalPrice {
   display: inline-block;
   text-align: left;
